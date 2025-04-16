@@ -1,97 +1,136 @@
-// 画面サイズ375px以下はいい感じに縮小
 document.addEventListener("DOMContentLoaded", () => {
-    function scaleContent() {
-        const minWidth = 375;
-        if (window.innerWidth < minWidth) {
-            const scale = window.innerWidth / minWidth;
-            document.body.style.transform = `scale(scale)`;
-            document.body.style.transformOrigin = "top left";
-            document.body.style.width = `minWidthpx`; // レイアウト維持
-        } else {
-            document.body.style.transform = ""; // 拡大・縮小を無効化
-            document.body.style.width = ""; // デフォルトの幅に戻す
-        }
+  const workVideoId = "vr9dLvJs7VE";
+  const breakVideoId = "uLtKtTVoNPI";
+  const iframe = document.getElementById("youtube-frame");
+  const timerElement = document.getElementById("timer");
+
+  // ▼ アラーム設定
+  const alarmStartSelect = document.getElementById("alarm-start-select");
+  const alarmEndSelect = document.getElementById("alarm-end-select");
+  const volumeControl = document.getElementById("volume-control");
+  const muteToggle = document.getElementById("mute-toggle");
+  const testStartBtn = document.getElementById("test-start");
+  const testEndBtn = document.getElementById("test-end");
+  const stopStartBtn = document.getElementById("stop-start");
+  const stopEndBtn = document.getElementById("stop-end");
+
+  // ▼ ToDo
+  const form = document.getElementById("todo-form");
+  const input = document.getElementById("todo-input");
+  const list = document.getElementById("todo-list");
+
+  // ▼ アラームファイルマップ
+  const fileMap = {
+    "alarm": "alarm.mp3",
+    "DJ": "DJ.mp3",
+    "dora": "dora.mp3",
+    "clock": "clock.mp3",
+    "clapboard": "clapboard.mp3",
+    "historical-drama": "historical-drama.mp3",
+    "up": "up.mp3",
+    "curse": "curse.mp3",
+    "ramen": "ramen.mp3",
+    "bugle": "bugle.mp3",
+    "flash": "flash.mp3"
+  };
+
+  const audioStart = new Audio();
+  const audioEnd = new Audio();
+
+  // ▼ ToDo追加
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const task = input.value.trim();
+    if (!task) return;
+
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <input type="checkbox" />
+      <span>${task}</span>
+      <button class="delete-btn">削除</button>
+    `;
+    list.appendChild(li);
+    input.value = "";
+  });
+
+  // ▼ ToDo削除
+  list.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+      e.target.closest("li").remove();
     }
-    scaleContent();
-    window.addEventListener("resize", scaleContent);
+  });
+
+  // ▼ タイマーと動画切り替え
+  function updateTimer() {
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const isWorkTime = minutes % 60 < 50;
+
+    const remaining = isWorkTime
+      ? (49 - (minutes % 60)) * 60 + (59 - seconds)
+      : (59 - (minutes % 60)) * 60 + (59 - seconds);
+
+    const displayMinutes = String(Math.floor(remaining / 60)).padStart(2, "0");
+    const displaySeconds = String(remaining % 60).padStart(2, "0");
+    timerElement.textContent = `${displayMinutes}:${displaySeconds}`;
+
+    const targetVideoId = isWorkTime ? workVideoId : breakVideoId;
+    const currentSrc = iframe.src;
+
+    if (!currentSrc.includes(targetVideoId)) {
+      iframe.src = `https://www.youtube.com/embed/${targetVideoId}?autoplay=1&loop=1&playlist=${targetVideoId}`;
+      playAlarm(isWorkTime ? "start" : "end");
+    }
+  }
+
+  // ▼ アラーム再生
+  function playAlarm(type) {
+    const selected = type === "start" ? alarmStartSelect.value : alarmEndSelect.value;
+    const file = fileMap[selected];
+    if (!file) return;
+
+    const audio = type === "start" ? audioStart : audioEnd;
+    audio.src = `./alarm/${file}`;
+    audio.volume = volumeControl ? volumeControl.value : 1;
+    audio.muted = muteToggle ? muteToggle.checked : false;
+    audio.play();
+  }
+
+  // ▼ 音量変更
+  if (volumeControl) {
+    volumeControl.addEventListener("input", () => {
+      audioStart.volume = volumeControl.value;
+      audioEnd.volume = volumeControl.value;
+    });
+  }
+
+  // ▼ ミュート切替
+  if (muteToggle) {
+    muteToggle.addEventListener("change", () => {
+      audioStart.muted = muteToggle.checked;
+      audioEnd.muted = muteToggle.checked;
+    });
+  }
+
+  // ▼ テスト再生
+  if (testStartBtn) testStartBtn.addEventListener("click", () => playAlarm("start"));
+  if (testEndBtn) testEndBtn.addEventListener("click", () => playAlarm("end"));
+
+  // ▼ 停止ボタン
+  if (stopStartBtn) stopStartBtn.addEventListener("click", () => {
+    audioStart.pause();
+    audioStart.currentTime = 0;
+  });
+
+  if (stopEndBtn) stopEndBtn.addEventListener("click", () => {
+    audioEnd.pause();
+    audioEnd.currentTime = 0;
+  });
+
+  // ✅ 最初に1回実行して0:00回避！
+  updateTimer();
+
+  // ✅ タイマー更新ループ
+  setInterval(updateTimer, 1000);
 });
-
-// ドロワー
-document.addEventListener('DOMContentLoaded', () => {
-    const drawer = document.querySelector('.drawer');
-    const drawerIcon = document.querySelector('.drawer-icon');
-    const body = document.body;
-    let isMenuOpen = false;
-
-    if (!drawer || !drawerIcon) return;
-
-    // 初期状態（非表示）
-    drawer.style.opacity = '0';
-    drawer.style.visibility = 'hidden';
-    drawer.style.transform = 'translateY(-100%)'; // 上からスライド
-    drawer.style.overflow = 'hidden';
-    drawer.style.transition = 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out';
-
-    const openMenu = () => {
-      isMenuOpen = true;
-      drawer.classList.add('js-show');
-      drawerIcon.classList.add('js-show'); // 追加
-      drawer.style.opacity = '1';
-      drawer.style.visibility = 'visible';
-      drawer.style.transform = 'translateY(0)';
-      body.style.overflow = 'hidden'; // スクロールを防止
-      drawerIcon.setAttribute('aria-expanded', 'true'); // アクセシビリティ対応
-    };
-
-    const closeMenu = () => {
-      isMenuOpen = false;
-      drawer.classList.remove('js-show');
-      drawerIcon.classList.remove('js-show'); // 追加
-      drawer.style.opacity = '0';
-      drawer.style.visibility = 'hidden';
-      drawer.style.transform = 'translateY(-100%)';
-      body.style.overflow = ''; // スクロール解除
-      drawerIcon.setAttribute('aria-expanded', 'false'); // アクセシビリティ対応
-    };
-
-    drawerIcon.addEventListener('click', () => {
-      if (isMenuOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-    });
-
-    // 画面リサイズ時に開いていたら閉じる
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768 && isMenuOpen) {
-        closeMenu();
-      }
-    });
-
-    // メニュー外クリックで閉じる
-    document.addEventListener('click', (event) => {
-      if (!drawer.contains(event.target) && !drawerIcon.contains(event.target) && isMenuOpen) {
-        closeMenu();
-      }
-    });
-
-    // ESCキーでメニューを閉じる
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && isMenuOpen) {
-        closeMenu();
-      }
-    });
-
-    // ページ内リンククリック時のスクロール処理
-    document.querySelectorAll('.drawer__item-link').forEach(link => {
-      link.addEventListener('click', (event) => {
-        event.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        closeMenu();
-      });
-    });
-});
-
