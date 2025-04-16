@@ -12,120 +12,23 @@
     <meta property="og:url" content="https://example.com">
     <meta property="og:image" content="https://example.com/og-image.jpg">
     <!-- ファビコン -->
+    <!-- <link rel="icon" href="favicon.ico"> -->
     <!-- 本番環境では削除 -->
     <meta name="robots" content="noindex, nofollow">
     <!-- Google Fonts（必要なら追加） -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="./css/style.css">
     <!-- swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
 
     <!-- 自作スクリプト（deferでHTML解析後に実行） -->
-    <script src="./js/script.js" defer></script>
+    <script src="js/script.js" defer></script>
 </head>
 <body>
-  <section class="time">
-    <div class="time-break__wrapper">
-      <div class="time-break__row">
-        <div class="time-break">休憩中</div>
-        <div id="restart-time" class="restart-time"></div>
-      </div>
-      <div id="break-countdown" class="break-countdown"></div>
-      <div id="break-fullscreen-countdown" class="break-fullscreen-countdown hidden"></div>
-    </div>
-  </section>
-  <div class="frame">
-    <div id="youtube-frame"></div>
-  </div>
-  <div class="timer__wrapper">
-    <div class="timer">00:00</div>
-    <div class="todo">
-      <!-- ✅ 作業開始アラーム -->
-      <div class="alarm-group">
-        <label for="alarm-start-select">作業開始アラーム</label>
-        <select id="alarm-start-select">
-          <option value="voice1">さあいくぞ！</option>
-          <option value="voice3">よろしくお願いします！</option>
-          <option value="voice4">よろしくお願いね！</option>
-          <option value="voice5">よ、よろしくお願いします！</option>
-          <option value="voice10">突撃</option>
-          <option value="dora">ドラ</option>
-          <option value="clock">鳩時計</option>
-          <option value="clapboard">拍子木</option>
-          <option value="historical-drama">時代劇</option>
-          <option value="voice6">か、体がいうことを・・・！</option>
-          <option value="voice7">ここで引くわけには・・・！</option>
-          <option value="voice8">オーッホッホッホッホ！</option>
-          <option value="ramen">ラーメン屋台</option>
-          <option value="alarm5">yeah!</option>
-          <option value="alarm12">琴の音</option>
-          <option value="voice9">F1</option>
-          <option value="voice2">やったぁ！</option>
-          <option value="voice12">お疲れ様でした！</option>
-          <option value="voice13">１０分間の休憩となります</option>
-          <option value="voice15">またのご利用を・・・</option>
-          <option value="voice16">レベルアップだよ！</option>
-          <option value="voice17">ゴーーーール！</option>
-          <option value="voice18">終了しました</option>
-          <option value="voice19">よくできました</option>
-          <option value="voice20">ついにお迎えが</option>
-          <option value="voice11">歓声</option>
-          <option value="voice14">これをもちまして・・・</option>
-        </select>
-        <div class="alarm-buttons">
-          <button id="test-start">テスト再生 ▶️</button>
-          <button id="stop-start">停止 ⏹️</button>
-        </div>
-      </div>
-      <!-- ✅ 作業終了アラーム -->
-      <div class="alarm-group">
-        <label for="alarm-end-select">作業終了アラーム</label>
-        <select id="alarm-end-select">
-          <option value="voice1">さあいくぞ！</option>
-          <option value="voice3">よろしくお願いします！</option>
-          <option value="voice4">よろしくお願いね！</option>
-          <option value="voice5">よ、よろしくお願いします！</option>
-          <option value="voice10">突撃</option>
-          <option value="dora">ドラ</option>
-          <option value="clock">鳩時計</option>
-          <option value="clapboard">拍子木</option>
-          <option value="historical-drama">時代劇</option>
-          <option value="voice6">か、体がいうことを・・・！</option>
-          <option value="voice7">ここで引くわけには・・・！</option>
-          <option value="voice8">オーッホッホッホッホ！</option>
-          <option value="ramen">ラーメン屋台</option>
-          <option value="alarm5">yeah!</option>
-          <option value="alarm12">琴の音</option>
-          <option value="voice9">F1</option>
-          <option value="voice2">やったぁ！</option>
-          <option value="voice12">お疲れ様でした！</option>
-          <option value="voice13">１０分間の休憩となります</option>
-          <option value="voice15">またのご利用を・・・</option>
-          <option value="voice16">レベルアップだよ！</option>
-          <option value="voice17">ゴーーーール！</option>
-          <option value="voice18">終了しました</option>
-          <option value="voice19">よくできました</option>
-          <option value="voice20">ついにお迎えが</option>
-          <option value="voice11">歓声</option>
-          <option value="voice14">これをもちまして・・・</option>
-        </select>
-        <div class="alarm-buttons">
-          <button id="test-end">テスト再生 ▶️</button>
-          <button id="stop-end">停止 ⏹️</button>
-        </div>
-      </div>
-      <form id="todo-form">
-        <input type="text" id="todo-input" placeholder="追加事項" required />
-        <button type="submit">追加</button>
-      </form>
-      <ul id="todo-list"></ul>
-    </div>
-  </div>
-  
-
+    
 </body>
 </html>
