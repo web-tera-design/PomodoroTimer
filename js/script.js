@@ -1,10 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const workVideoId = "vr9dLvJs7VE";
-  const breakVideoId = "uLtKtTVoNPI";
+  const breakVideoId = "To1yijqZCCE";
+
   const iframe = document.getElementById("youtube-frame");
   const timerElement = document.getElementById("timer");
+  const todoElement = document.querySelector(".todo");
+  const breakLabel = document.getElementById("break-label");
+  const breakText = document.querySelector(".time-break");
 
-  // ▼ アラーム設定
   const alarmStartSelect = document.getElementById("alarm-start-select");
   const alarmEndSelect = document.getElementById("alarm-end-select");
   const volumeControl = document.getElementById("volume-control");
@@ -14,12 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const stopStartBtn = document.getElementById("stop-start");
   const stopEndBtn = document.getElementById("stop-end");
 
-  // ▼ ToDo
   const form = document.getElementById("todo-form");
   const input = document.getElementById("todo-input");
   const list = document.getElementById("todo-list");
 
-  // ▼ アラームファイルマップ
   const fileMap = {
     "alarm": "alarm.mp3",
     "DJ": "DJ.mp3",
@@ -36,13 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const audioStart = new Audio();
   const audioEnd = new Audio();
+  audioStart.volume = 0.3;
+  audioEnd.volume = 0.3;
 
-  // ▼ ToDo追加
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const task = input.value.trim();
     if (!task) return;
-
     const li = document.createElement("li");
     li.innerHTML = `
       <input type="checkbox" />
@@ -53,16 +54,14 @@ document.addEventListener("DOMContentLoaded", () => {
     input.value = "";
   });
 
-  // ▼ ToDo削除
   list.addEventListener("click", (e) => {
     if (e.target.classList.contains("delete-btn")) {
       e.target.closest("li").remove();
     }
   });
 
-  // ▼ タイマーと動画切り替え
-  function updateTimer() {
-    const now = new Date();
+  function updateTimer(forcedNow = null) {
+    const now = forcedNow || new Date();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
     const isWorkTime = minutes % 60 < 50;
@@ -82,9 +81,20 @@ document.addEventListener("DOMContentLoaded", () => {
       iframe.src = `https://www.youtube.com/embed/${targetVideoId}?autoplay=1&loop=1&playlist=${targetVideoId}`;
       playAlarm(isWorkTime ? "start" : "end");
     }
+
+    if (isWorkTime) {
+      timerElement.classList.remove("timer--top-left");
+      if (todoElement) todoElement.style.display = "";
+      if (breakLabel) breakLabel.style.display = "none";
+      if (breakText) breakText.style.display = "none";
+    } else {
+      timerElement.classList.add("timer--top-left");
+      if (todoElement) todoElement.style.display = "none";
+      if (breakLabel) breakLabel.style.display = "block";
+      if (breakText) breakText.style.display = "block";
+    }
   }
 
-  // ▼ アラーム再生
   function playAlarm(type) {
     const selected = type === "start" ? alarmStartSelect.value : alarmEndSelect.value;
     const file = fileMap[selected];
@@ -92,12 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const audio = type === "start" ? audioStart : audioEnd;
     audio.src = `./alarm/${file}`;
-    audio.volume = volumeControl ? volumeControl.value : 1;
+    audio.volume = volumeControl ? volumeControl.value : 0.3;
     audio.muted = muteToggle ? muteToggle.checked : false;
     audio.play();
   }
 
-  // ▼ 音量変更
   if (volumeControl) {
     volumeControl.addEventListener("input", () => {
       audioStart.volume = volumeControl.value;
@@ -105,7 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ▼ ミュート切替
   if (muteToggle) {
     muteToggle.addEventListener("change", () => {
       audioStart.muted = muteToggle.checked;
@@ -113,11 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ▼ テスト再生
   if (testStartBtn) testStartBtn.addEventListener("click", () => playAlarm("start"));
   if (testEndBtn) testEndBtn.addEventListener("click", () => playAlarm("end"));
 
-  // ▼ 停止ボタン
   if (stopStartBtn) stopStartBtn.addEventListener("click", () => {
     audioStart.pause();
     audioStart.currentTime = 0;
@@ -128,9 +134,13 @@ document.addEventListener("DOMContentLoaded", () => {
     audioEnd.currentTime = 0;
   });
 
-  // ✅ 最初に1回実行して0:00回避！
   updateTimer();
-
-  // ✅ タイマー更新ループ
-  setInterval(updateTimer, 1000);
+  setInterval(() => updateTimer(), 1000);
 });
+
+window.toggleBreak = () => {
+  const now = new Date();
+  now.setMinutes(55);
+  updateTimer(now);
+  console.log("✅ 休憩時間に強制切り替えました");
+};

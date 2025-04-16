@@ -19,11 +19,26 @@ iframe {
   width: 100vw;
   height: 100vh;
   border: none;
+  position: relative;
+}
+
+.time-break {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  color: #fff;
+  font-size: 3vw;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  text-align: center;
+  display: none;
 }
 
 .timer__wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -48,6 +63,18 @@ iframe {
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
+}
+
+
+/* タイマーを左上に移動するスタイル */
+.timer--top-left {
+  position: fixed;
+  top: 10rem;
+  left: 3rem;
+  font-size: 1rem;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  z-index: 100;
 }
 
 .todo h2 {
@@ -177,3 +204,5 @@ iframe {
 #volume-control {
   width: 100%;
 }
+
+

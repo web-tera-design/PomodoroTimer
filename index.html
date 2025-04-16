@@ -12,7 +12,6 @@
     <meta property="og:url" content="https://example.com">
     <meta property="og:image" content="https://example.com/og-image.jpg">
     <!-- ファビコン -->
-    <!-- <link rel="icon" href="favicon.ico"> -->
     <!-- 本番環境では削除 -->
     <meta name="robots" content="noindex, nofollow">
     <!-- Google Fonts（必要なら追加） -->
@@ -27,6 +26,7 @@
     <!-- swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <!-- 自作スクリプト（deferでHTML解析後に実行） -->
     <script src="js/script.js" defer></script>
@@ -34,12 +34,14 @@
 <body>
   <div class="frame">
     <iframe
-      id="youtube-frame"
-      src="https://www.youtube.com/embed/vr9dLvJs7VE?autoplay=1&loop=1&playlist=vr9dLvJs7VE"
-      allow="autoplay"
-      loading="lazy"
-      allowfullscreen
-      title="youtube"></iframe>
+    id="youtube-frame"
+    src="https://www.youtube.com/embed/vr9dLvJs7VE?autoplay=1&loop=1&playlist=vr9dLvJs7VE"
+    allow="autoplay"
+    loading="lazy"
+    allowfullscreen
+    title="youtube">
+    </iframe>
+    <div class="time-break">休憩中</div>
   </div>
   <div class="timer__wrapper">
     <div id="timer">00:00</div>
@@ -48,8 +50,8 @@
       <div class="alarm-group">
         <label for="alarm-start-select">作業開始アラーム</label>
         <select id="alarm-start-select">
-          <option value="alarm">警報音</option>
           <option value="DJ">DJスクラッチ</option>
+          <option value="alarm">警報音</option>
           <option value="dora">ドラ</option>
           <option value="clock">鳩時計</option>
           <option value="clapboard">拍子木</option>
@@ -59,19 +61,34 @@
           <option value="ramen">ラーメン屋台</option>
           <option value="bugle">ラッパ</option>
           <option value="flash">シャキーン</option>
+          <option value="voice1">voice1</option>
+          <option value="voice2">voice2</option>
+          <option value="voice3">voice3</option>
+          <option value="voice4">voice4</option>
+          <option value="voice5">voice5</option>
+          <option value="voice6">voice6</option>
+          <option value="voice7">voice7</option>
+          <option value="voice8">voice8</option>
+          <option value="voice9">voice9</option>
+          <option value="voice10">voice10</option>
+          <option value="voice11">voice11</option>
+          <option value="voice12">voice12</option>
+          <option value="voice13">voice13</option>
+          <option value="voice14">voice14</option>
+          <option value="voice15">voice15</option>
+          <option value="voice16">voice16</option>
         </select>
         <div class="alarm-buttons">
           <button id="test-start">テスト再生 ▶️</button>
           <button id="stop-start">停止 ⏹️</button>
         </div>
       </div>
-  
       <!-- ✅ 作業終了アラーム -->
       <div class="alarm-group">
         <label for="alarm-end-select">作業終了アラーム</label>
         <select id="alarm-end-select">
-          <option value="alarm">警報音</option>
           <option value="DJ">DJスクラッチ</option>
+          <option value="alarm">警報音</option>
           <option value="dora">ドラ</option>
           <option value="clock">鳩時計</option>
           <option value="clapboard">拍子木</option>
@@ -81,24 +98,38 @@
           <option value="ramen">ラーメン屋台</option>
           <option value="bugle">ラッパ</option>
           <option value="flash">シャキーン</option>
+          <option value="voice1">voice1</option>
+          <option value="voice2">voice2</option>
+          <option value="voice3">voice3</option>
+          <option value="voice4">voice4</option>
+          <option value="voice5">voice5</option>
+          <option value="voice6">voice6</option>
+          <option value="voice7">voice7</option>
+          <option value="voice8">voice8</option>
+          <option value="voice9">voice9</option>
+          <option value="voice10">voice10</option>
+          <option value="voice11">voice11</option>
+          <option value="voice12">voice12</option>
+          <option value="voice13">voice13</option>
+          <option value="voice14">voice14</option>
+          <option value="voice15">voice15</option>
+          <option value="voice16">voice16</option>
         </select>
         <div class="alarm-buttons">
           <button id="test-end">テスト再生 ▶️</button>
           <button id="stop-end">停止 ⏹️</button>
         </div>
       </div>
-  
       <!-- ✅ TODO入力 -->
       <form id="todo-form">
         <input type="text" id="todo-input" placeholder="新しいタスクを追加" required />
         <button type="submit">追加</button>
       </form>
-  
       <!-- ✅ TODOリスト表示 -->
       <ul id="todo-list"></ul>
     </div>
   </div>
   
-  
+
 </body>
 </html>
