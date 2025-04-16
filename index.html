@@ -29,18 +29,11 @@
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <!-- 自作スクリプト（deferでHTML解析後に実行） -->
-    <script src="js/script.js" defer></script>
+    <script src="js/script.js"></script>
 </head>
 <body>
   <div class="frame">
-    <iframe
-    id="youtube-frame"
-    src="https://www.youtube.com/embed/vr9dLvJs7VE?autoplay=1&loop=1&playlist=vr9dLvJs7VE"
-    allow="autoplay"
-    loading="lazy"
-    allowfullscreen
-    title="youtube">
-    </iframe>
+    <div id="youtube-frame"></div>
     <div class="time-break">休憩中</div>
   </div>
   <div class="timer__wrapper">
@@ -50,11 +43,11 @@
       <div class="alarm-group">
         <label for="alarm-start-select">作業開始アラーム</label>
         <select id="alarm-start-select">
+          <option value="clapboard">拍子木</option>
           <option value="DJ">DJスクラッチ</option>
           <option value="alarm">警報音</option>
           <option value="dora">ドラ</option>
           <option value="clock">鳩時計</option>
-          <option value="clapboard">拍子木</option>
           <option value="historical-drama">時代劇</option>
           <option value="up">レベルアップ</option>
           <option value="curse">呪い</option>
@@ -87,11 +80,11 @@
       <div class="alarm-group">
         <label for="alarm-end-select">作業終了アラーム</label>
         <select id="alarm-end-select">
+          <option value="clapboard">拍子木</option>
           <option value="DJ">DJスクラッチ</option>
           <option value="alarm">警報音</option>
           <option value="dora">ドラ</option>
           <option value="clock">鳩時計</option>
-          <option value="clapboard">拍子木</option>
           <option value="historical-drama">時代劇</option>
           <option value="up">レベルアップ</option>
           <option value="curse">呪い</option>
