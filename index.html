@@ -32,9 +32,12 @@
     <script src="js/script.js"></script>
 </head>
 <body>
+  <div class="time-break__wrapper">
+    <div class="time-break">休憩中</div>
+    <div id="restart-time" class="restart-time"></div>
+  </div>
   <div class="frame">
     <div id="youtube-frame"></div>
-    <div class="time-break">休憩中</div>
   </div>
   <div class="timer__wrapper">
     <div id="timer">00:00</div>
@@ -43,33 +46,33 @@
       <div class="alarm-group">
         <label for="alarm-start-select">作業開始アラーム</label>
         <select id="alarm-start-select">
-          <option value="clapboard">拍子木</option>
-          <option value="DJ">DJスクラッチ</option>
-          <option value="alarm">警報音</option>
+          <option value="voice1">さあいくぞ！</option>
+          <option value="voice3">よろしくお願いします！</option>
+          <option value="voice4">よろしくお願いね！</option>
+          <option value="voice5">よ、よろしくお願いします！</option>
+          <option value="voice10">突撃</option>
           <option value="dora">ドラ</option>
           <option value="clock">鳩時計</option>
+          <option value="clapboard">拍子木</option>
           <option value="historical-drama">時代劇</option>
-          <option value="up">レベルアップ</option>
-          <option value="curse">呪い</option>
+          <option value="voice6">か、体がいうことを・・・！</option>
+          <option value="voice7">ここで引くわけには・・・！</option>
+          <option value="voice8">オーッホッホッホッホ！</option>
           <option value="ramen">ラーメン屋台</option>
-          <option value="bugle">ラッパ</option>
-          <option value="flash">シャキーン</option>
-          <option value="voice1">voice1</option>
-          <option value="voice2">voice2</option>
-          <option value="voice3">voice3</option>
-          <option value="voice4">voice4</option>
-          <option value="voice5">voice5</option>
-          <option value="voice6">voice6</option>
-          <option value="voice7">voice7</option>
-          <option value="voice8">voice8</option>
-          <option value="voice9">voice9</option>
-          <option value="voice10">voice10</option>
-          <option value="voice11">voice11</option>
-          <option value="voice12">voice12</option>
-          <option value="voice13">voice13</option>
-          <option value="voice14">voice14</option>
-          <option value="voice15">voice15</option>
-          <option value="voice16">voice16</option>
+          <option value="alarm5">yeah!</option>
+          <option value="alarm12">琴の音</option>
+          <option value="voice9">F1</option>
+          <option value="voice2">やったぁ！</option>
+          <option value="voice12">お疲れ様でした！</option>
+          <option value="voice13">１０分間の休憩となります</option>
+          <option value="voice15">またのご利用を・・・</option>
+          <option value="voice16">レベルアップだよ！</option>
+          <option value="voice17">ゴーーーール！</option>
+          <option value="voice18">終了しました</option>
+          <option value="voice19">よくできました</option>
+          <option value="voice20">ついにお迎えが</option>
+          <option value="voice11">歓声</option>
+          <option value="voice14">これをもちまして・・・</option>
         </select>
         <div class="alarm-buttons">
           <button id="test-start">テスト再生 ▶️</button>
@@ -80,42 +83,46 @@
       <div class="alarm-group">
         <label for="alarm-end-select">作業終了アラーム</label>
         <select id="alarm-end-select">
-          <option value="clapboard">拍子木</option>
-          <option value="DJ">DJスクラッチ</option>
-          <option value="alarm">警報音</option>
+          <option value="voice1">さあいくぞ！</option>
+          <option value="voice3">よろしくお願いします！</option>
+          <option value="voice4">よろしくお願いね！</option>
+          <option value="voice5">よ、よろしくお願いします！</option>
+          <option value="voice10">突撃</option>
           <option value="dora">ドラ</option>
           <option value="clock">鳩時計</option>
+          <option value="clapboard">拍子木</option>
           <option value="historical-drama">時代劇</option>
-          <option value="up">レベルアップ</option>
-          <option value="curse">呪い</option>
+          <option value="voice6">か、体がいうことを・・・！</option>
+          <option value="voice7">ここで引くわけには・・・！</option>
+          <option value="voice8">オーッホッホッホッホ！</option>
           <option value="ramen">ラーメン屋台</option>
-          <option value="bugle">ラッパ</option>
-          <option value="flash">シャキーン</option>
-          <option value="voice1">voice1</option>
-          <option value="voice2">voice2</option>
-          <option value="voice3">voice3</option>
-          <option value="voice4">voice4</option>
-          <option value="voice5">voice5</option>
-          <option value="voice6">voice6</option>
-          <option value="voice7">voice7</option>
-          <option value="voice8">voice8</option>
-          <option value="voice9">voice9</option>
-          <option value="voice10">voice10</option>
-          <option value="voice11">voice11</option>
-          <option value="voice12">voice12</option>
-          <option value="voice13">voice13</option>
-          <option value="voice14">voice14</option>
-          <option value="voice15">voice15</option>
-          <option value="voice16">voice16</option>
+          <option value="alarm5">yeah!</option>
+          <option value="alarm12">琴の音</option>
+          <option value="voice9">F1</option>
+          <option value="voice2">やったぁ！</option>
+          <option value="voice12">お疲れ様でした！</option>
+          <option value="voice13">１０分間の休憩となります</option>
+          <option value="voice15">またのご利用を・・・</option>
+          <option value="voice16">レベルアップだよ！</option>
+          <option value="voice17">ゴーーーール！</option>
+          <option value="voice18">終了しました</option>
+          <option value="voice19">よくできました</option>
+          <option value="voice20">ついにお迎えが</option>
+          <option value="voice11">歓声</option>
+          <option value="voice14">これをもちまして・・・</option>
         </select>
         <div class="alarm-buttons">
           <button id="test-end">テスト再生 ▶️</button>
           <button id="stop-end">停止 ⏹️</button>
         </div>
       </div>
+      <!-- <div class="youtube-volume-control">
+        <label for="youtube-volume">YouTube 音量</label>
+        <input type="range" id="youtube-volume" min="0" max="100" value="50" step="1" />
+      </div> -->
       <!-- ✅ TODO入力 -->
       <form id="todo-form">
-        <input type="text" id="todo-input" placeholder="新しいタスクを追加" required />
+        <input type="text" id="todo-input" placeholder="追加事項" required />
         <button type="submit">追加</button>
       </form>
       <!-- ✅ TODOリスト表示 -->

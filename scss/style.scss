@@ -22,19 +22,28 @@ iframe {
   position: relative;
 }
 
-.time-break {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  color: #fff;
-  font-size: 3vw;
-  padding: 0.5rem 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  width: 100%;
-  text-align: center;
+.time-break__wrapper {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
   display: none;
+  align-items: flex-start;
+  gap: 2rem;
+  z-index: 100;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+
+  &.visible {
+    display: flex;
+  }
+}
+
+.time-break,
+.restart-time {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: bold;
 }
 
 .timer__wrapper {
@@ -43,7 +52,7 @@ iframe {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  gap: 10rem;
+  gap: 5vw;
   place-items: center;
 }
 
@@ -53,28 +62,48 @@ iframe {
   border-radius: 10px;
 }
 
-// ========== ToDoエリア ==========
+.youtube-volume-floating {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: #fff;
+  z-index: 999;
+  font-size: 0.9rem;
+}
+
+.youtube-volume-floating input[type="range"] {
+  width: 100px;
+  margin-top: 0.25rem;
+}
+
 .todo {
   width: min(90vw, 600px);
-  background: #fff;
+  background: rgba(255, 255, 255, 0.1);
   color: #000;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
-
-/* タイマーを左上に移動するスタイル */
 .timer--top-left {
   position: fixed;
-  top: 10rem;
-  left: 3rem;
-  font-size: 1rem;
+  top: 0;
+  left: 0;
+  font-size: 1em;
   padding: 0.5em 1em;
   border-radius: 8px;
   z-index: 100;
+  display: none;
 }
 
 .todo h2 {
@@ -82,7 +111,6 @@ iframe {
   margin-bottom: 1rem;
 }
 
-// ========== ToDoフォーム ==========
 #todo-form {
   display: flex;
   gap: 0.5rem;
@@ -94,7 +122,15 @@ iframe {
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
+
+  &::placeholder {
+    color: #000;
+  }
+  &:hover {
+    background: #fff;
+    color: #000;
+  }
 }
 
 #todo-form button {
@@ -112,12 +148,12 @@ iframe {
   }
 }
 
-// ========== ToDoリスト項目 ==========
 #todo-list li {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
   gap: 0.5rem;
+  word-break: break-word;
 }
 
 .delete-btn {
@@ -129,12 +165,11 @@ iframe {
   cursor: pointer;
 }
 
-// ========== アラームセクション全体 ==========
 .todo .alarm-controls {
   margin-top: 1.5rem;
   padding: 1rem;
-  border: 1px solid #ccc;
-  background: #f8f8f8;
+  border: 1px solid #000;
+  background: transparent;
   border-radius: 8px;
   font-size: 0.9rem;
   display: flex;
@@ -148,7 +183,6 @@ iframe {
   gap: 0.5rem;
 
   label {
-    margin-block-start: rem(10);
     font-size: 1rem;
     font-weight: 600;
   }
@@ -156,26 +190,28 @@ iframe {
   select {
     padding: 0.5rem;
     border-radius: 6px;
-    border: 1px solid #aaa;
-    background: #fff;
+    border: 1px solid #000;
+    background: transparent;
     color: #000;
     font-size: 1rem;
+    transition: all 0.3s ease;
 
     &:hover {
       border: 1px solid #000;
+      background: #fff;
       cursor: pointer;
     }
   }
 }
 
-// ========== アラーム操作UI ==========
 .alarm-buttons {
-  margin-block-start: rem(10);
+  margin-block-start: 0.5rem;
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 
   button {
-    background: #fff;
+    background: transparent;
     color: #000;
     padding: 0.4rem 1rem;
     border-radius: 6px;
@@ -185,24 +221,62 @@ iframe {
     transition: all 0.3s ease;
 
     &:hover {
-      background: #000;
-      color: #fff;
+      background: #fff;
+      color: #000;
     }
   }
 }
 
 .alarm-ui {
+  margin-block-start: 30px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #000;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: #000;
+}
+
+.alarm-ui label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.alarm-ui input[type="range"] {
+  width: 100%;
+  appearance: none;
+  background: #fff;
+  height: 4px;
+  border-radius: 2px;
+  accent-color: #333;
+  cursor: pointer;
+}
+
+.alarm-ui input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.alarm-volume-group {
+  margin-top: 0;
+  color: #000;
+  background: transparent;
+  padding: 0;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.alarm-ui label {
-  font-size: 0.9rem;
+.alarm-volume-group label {
+  font-size: 0.95rem;
 }
 
-#volume-control {
+.alarm-volume-group input[type="range"] {
   width: 100%;
+  accent-color: #333;
 }
-
 
