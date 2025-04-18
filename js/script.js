@@ -56,6 +56,40 @@ function setTimerMinWidth() {
   span.remove();
 }
 
+// ✅ アラーム音を再生する関数
+function playAlarm(type) {
+  const selectEl = type === "start" ? alarmStartSelect : alarmEndSelect;
+  const selected = selectEl.value;
+
+  const file = fileMap[selected];
+  if (!file) return;
+
+  const audio = type === "start" ? audioStart : audioEnd;
+  audio.src = `./alarm/${file}`;
+  audio.play();
+}
+
+// ✅ DOMContentLoaded イベント内での初期化処理
+// 必要な変数などはここで定義済みと仮定
+
+// 🔽 アラームセレクト要素の取得
+const alarmStartSelect = document.getElementById("alarm-start-select");
+const alarmEndSelect = document.getElementById("alarm-end-select");
+
+// 🔽 ローカルストレージから値を読み込んで反映
+const savedStart = localStorage.getItem("alarmSound_start");
+const savedEnd = localStorage.getItem("alarmSound_end");
+if (savedStart) alarmStartSelect.value = savedStart;
+if (savedEnd) alarmEndSelect.value = savedEnd;
+
+// 🔽 ユーザーが選択を変えたら保存する
+alarmStartSelect.addEventListener("change", () => {
+  localStorage.setItem("alarmSound_start", alarmStartSelect.value);
+});
+alarmEndSelect.addEventListener("change", () => {
+  localStorage.setItem("alarmSound_end", alarmEndSelect.value);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const workVideoId = "vr9dLvJs7VE";
   const breakVideoId = "To1yijqZCCE";
