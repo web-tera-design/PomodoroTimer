@@ -4,9 +4,9 @@
 
 body {
   margin: 0;
-  background: #000;
-  color: #fff;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background: #111;
+  color: #f5f5f5;
+  font-family: "M PLUS Rounded 1c", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,20 +15,15 @@ body {
   position: relative;
 }
 
-iframe {
-  width: 100vw;
-  height: 100vh;
-  border: none;
-  position: relative;
-}
-
 .time-break__wrapper {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 1rem;
   left: 1rem;
   display: none;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 1rem;
   z-index: 100;
   color: #fff;
   background: rgba(0, 0, 0, 0.2);
@@ -40,10 +35,76 @@ iframe {
   }
 }
 
+.time-break__row {
+  display: flex;
+}
+
 .time-break,
 .restart-time {
-  font-size: clamp(2rem, 6vw, 5rem);
+  font-size: 3vw;
   font-weight: bold;
+}
+
+/* 休憩中の下に表示されるカウント（残り1分未満） */
+.break-countdown {
+  text-align: center;
+  font-size: 3vw;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 0.5rem;
+  transition: none;
+  
+  /* 画面中央に表示されるときの演出 */
+  &.explode {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    z-index: 999;
+    animation: explodeOut 0.8s ease forwards;
+  }
+}
+
+@keyframes explodeOut {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(10);
+    opacity: 0;
+  }
+}
+
+.break-fullscreen-countdown {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  font-size: clamp(6rem, 20vw, 22rem);
+  color: white;
+  padding: 2rem 4rem;
+  border-radius: 1rem;
+  z-index: 9999;
+  pointer-events: none;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.break-fullscreen-countdown.hidden {
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+
+iframe {
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  position: relative;
 }
 
 .timer__wrapper {
@@ -56,37 +117,75 @@ iframe {
   place-items: center;
 }
 
-#timer {
+.timer {
   font-size: 10vw;
   z-index: 10;
   border-radius: 10px;
+  text-align: center;
+  transition: font-size 0.3s ease;
 }
 
-.youtube-volume-floating {
+.timer__clock {
+  display: inline-block;
+  text-align: center;
+  transition: color 0.5s ease;
+
+  &--normal {
+    color: #fff;
+  }
+
+  &--warn {
+    color: #FFA500; // オレンジ
+  }
+
+  &--danger {
+    color: #FF4C4C; // 赤
+    font-size: 15vw;
+  }
+
+  &--countdown {
+    color: #FF4C4C;
+    animation: scalePulse 0.3s ease-in-out;
+  }
+}
+
+@keyframes scalePulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+//休憩中にのみ表示
+.timer--top-left {
   position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  color: #fff;
-  z-index: 999;
-  font-size: 0.9rem;
-}
-
-.youtube-volume-floating input[type="range"] {
-  width: 100px;
-  margin-top: 0.25rem;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.8); // ちょっと透かして上品に
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.3em 0.8em;
+  border-radius: 6px;
+  z-index: 100;
+  font-weight: 500;
+  display: none;
 }
 
 .todo {
   width: min(90vw, 600px);
-  background: rgba(255, 255, 255, 0.1);
-  color: #000;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 1rem 2rem;
+  backdrop-filter: blur(10px);
+  padding: 1rem 1.5rem; // 少しタイトに
+  color: #000;
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(2px);
@@ -95,34 +194,177 @@ iframe {
   word-break: break-word;
 }
 
-.timer--top-left {
-  position: fixed;
-  top: 0;
-  left: 0;
-  font-size: 1em;
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  z-index: 100;
-  display: none;
+.alarm-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-block: 0.5rem 1rem; // 上を詰めて下に余白
+
+  label {
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: transparent;
+    color: #000;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border: 1px solid #000;
+      background: #fff;
+      cursor: pointer;
+      background: linear-gradient(to right, #ddd, #fff);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+    }
+  }
 }
 
-.todo h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+.alarm-buttons {
+  margin-top: 0.25rem;
+  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+
+  button {
+    display: inline-block;
+    padding: 0.3rem 1.4rem;
+    border-radius: 6px;
+    background: transparent;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(to right, #ddd, #fff);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+    
+    }
+    &:active {
+      transform: scale(0.98);
+      box-shadow: none;
+    }
+  }
 }
+
+.alarm-ui {
+  margin-block-start: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #000;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  color: #000;
+}
+
+
+
+
+.alarm-ui.is-hovered { 
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.alarm-ui.is-hovered .alarm-volume-group label,
+.alarm-ui.is-hovered .youtube-volume-group label {
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.alarm-volume-group {
+  margin-top: 0;
+  color: #000;
+  background: transparent;
+  padding: 0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  &:nth-of-type(2) {
+    margin-block-start: 10px;
+  }
+}
+
+.alarm-volume-group label {
+  font-size: 0.95rem;
+}
+
+// .alarm-volume-group input[type="range"] {
+//   width: 100%;
+//   accent-color: #000;
+//   cursor: pointer;
+
+//   &:hover {
+//     accent-color: #fff;
+//   }
+// }
+
+.alarm-volume-group input[type="range"] {
+  display: block;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  // transition: background-color 0.3s ease;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #000;
+    border: none;
+    transition: background 0.3s ease;
+  }
+
+  &:hover {
+    background: #fff; // ホバー時のバー全体の色
+  }
+
+  // Firefox対応
+  &::-moz-range-track {
+    background: #000;
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  &::-moz-range-thumb {
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+  }
+
+  &:hover::-moz-range-track {
+    background: #666;
+  }
+}
+
 
 #todo-form {
   display: flex;
+  margin-block: 1rem 0.5rem;
   gap: 0.5rem;
-  margin-block: 20px 1rem;
 }
 
 #todo-input {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.4rem 0.8rem;
   font-size: 1rem;
   border-radius: 6px;
   border: 1px solid #000;
+  transition: all 0.3s ease;
 
   &::placeholder {
     color: #000;
@@ -130,11 +372,13 @@ iframe {
   &:hover {
     background: #fff;
     color: #000;
+    background: linear-gradient(to right, #ddd, #fff);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
   }
 }
 
 #todo-form button {
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem;
   background: #000;
   color: #fff;
   border-radius: 6px;
@@ -154,6 +398,19 @@ iframe {
   margin-bottom: 0.5rem;
   gap: 0.5rem;
   word-break: break-word;
+  animation: fadeIn 0.5s ease;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(100%, 0px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0);
+    }
+  }
+  
 }
 
 .delete-btn {
@@ -165,118 +422,67 @@ iframe {
   cursor: pointer;
 }
 
-.todo .alarm-controls {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border: 1px solid #000;
-  background: transparent;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
 
-.alarm-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 
-  label {
-    font-size: 1rem;
-    font-weight: 600;
-  }
 
-  select {
-    padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #000;
-    background: transparent;
-    color: #000;
-    font-size: 1rem;
-    transition: all 0.3s ease;
 
-    &:hover {
-      border: 1px solid #000;
-      background: #fff;
-      cursor: pointer;
-    }
-  }
-}
 
-.alarm-buttons {
-  margin-block-start: 0.5rem;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+// .todo .alarm-controls {
+//   margin-top: 1.5rem;
+//   padding: 1rem;
+//   border: 1px solid #000;
+//   background: transparent;
+//   border-radius: 8px;
+//   font-size: 0.9rem;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1.5rem;
+// }
 
-  button {
-    background: transparent;
-    color: #000;
-    padding: 0.4rem 1rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    border: 1px solid #000;
-    cursor: pointer;
-    transition: all 0.3s ease;
 
-    &:hover {
-      background: #fff;
-      color: #000;
-    }
-  }
-}
 
-.alarm-ui {
-  margin-block-start: 30px;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 1px solid #000;
-  background: transparent;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  color: #000;
-}
 
-.alarm-ui label {
-  display: block;
-  margin-bottom: 0.25rem;
-}
+// .youtube-volume-floating {
+//   position: fixed;
+//   bottom: 1rem;
+//   left: 1rem;
+//   background: rgba(0, 0, 0, 0.5);
+//   padding: 0.75rem 1rem;
+//   border-radius: 8px;
+//   color: #fff;
+//   z-index: 999;
+//   font-size: 0.9rem;
+// }
 
-.alarm-ui input[type="range"] {
-  width: 100%;
-  appearance: none;
-  background: #fff;
-  height: 4px;
-  border-radius: 2px;
-  accent-color: #333;
-  cursor: pointer;
-}
+// .youtube-volume-floating input[type="range"] {
+//   width: 100px;
+//   margin-top: 0.25rem;
+// }
 
-.alarm-ui input[type="checkbox"] {
-  margin-right: 0.5rem;
-}
 
-.alarm-volume-group {
-  margin-top: 0;
-  color: #000;
-  background: transparent;
-  padding: 0;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 
-.alarm-volume-group label {
-  font-size: 0.95rem;
-}
+// .todo h2 {
+//   font-size: 1.5rem;
+//   margin-bottom: 1rem;
+// }
 
-.alarm-volume-group input[type="range"] {
-  width: 100%;
-  accent-color: #333;
-}
 
+
+// .alarm-ui label {
+//   display: block;
+//   margin-bottom: 0.25rem;
+// }
+
+// .alarm-ui input[type="checkbox"] {
+//   margin-right: 0.5rem;
+// }
+
+// .alarm-ui input[type="range"] {
+//   width: 100%;
+//   appearance: none;
+//   background: #fff;
+//   height: 4px;
+//   border-radius: 2px;
+//   accent-color: #333;
+//   cursor: pointer;
+// }
