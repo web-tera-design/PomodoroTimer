@@ -1,7 +1,7 @@
 // ✅ YouTube IFrame APIでプレイヤーを制御
 let player;
 
-function onYouTubeIframeAPIReady() {
+window.onYouTubeIframeAPIReady = function() {
   player = new YT.Player("youtube-frame", {
     videoId: "vr9dLvJs7VE",
     playerVars: {
