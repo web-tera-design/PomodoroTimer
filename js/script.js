@@ -32,6 +32,8 @@ window.onYouTubeIframeAPIReady = function() {
             );
           });
         }
+        // ✅ ここで初めて updateTimer のループを開始！
+        setInterval(updateTimer, 1000);
       }
     }
   });
