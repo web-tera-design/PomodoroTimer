@@ -1,6 +1,5 @@
 @use 'reset';
 @use 'common' as *;
-<<<<<<< HEAD
 @use 'buttons';
 
 body {
@@ -195,6 +194,24 @@ iframe {
   word-break: break-word;
 }
 
+.todo--floating {
+  position: fixed;
+  bottom: 20px;
+  right: 35vw;
+  width: 300px;
+  transform: scale(0.85);
+  transform-origin: bottom right;
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0);
+  border-radius: 12px;
+  padding: 15px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+
+
+
 .alarm-group {
   display: flex;
   flex-direction: column;
@@ -267,9 +284,6 @@ iframe {
   flex-direction: column;
   color: #000;
 }
-
-
-
 
 .alarm-ui.is-hovered { 
   background-color: rgba(0, 0, 0, 0.5);
@@ -487,6 +501,3 @@ iframe {
 //   accent-color: #333;
 //   cursor: pointer;
 // }
-=======
-@use 'buttons';
->>>>>>> 88adbc4 (SCSSファイル確認)
