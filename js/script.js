@@ -326,7 +326,7 @@ if (youtubeSlider && alarmUIWrapper) {
       if (todoElement) {
         todoElement.style.display = "";
         todoElement.classList.add("todo--floating"); // ★追加！
-      }
+      }     
       if (breakWrapper) breakWrapper.classList.add("visible");
     
       let restartHour = hours;
