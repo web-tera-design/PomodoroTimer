@@ -503,63 +503,74 @@
 // =======================================================
 // 🎬【YouTubeプレイヤーの初期設定＆音量スライダー連携】
 // =======================================================
-// ✅ YouTube IFrame APIでプレイヤーを制御（完全版）
+// ✅ YouTube IFrame APIでプレイヤーを制御（クリック後に音量復元版）
 let player;
 
 window.onYouTubeIframeAPIReady = function() {
-  // ✅ 現在の時間帯に応じて、最初に再生する動画IDを決める
   const now = new Date();
   const isWorkTime = now.getMinutes() % 60 < 50;
   const isLunchBreak = now.getHours() === 12;
 
   let startVideoId;
   if (isLunchBreak) {
-    startVideoId = "hZkOVN8qT8I"; // 昼休憩用動画
+    startVideoId = "hZkOVN8qT8I"; // 昼休憩用
   } else if (isWorkTime) {
-    startVideoId = "KcQnfPcmYLA"; // 作業用動画
+    startVideoId = "KcQnfPcmYLA"; // 作業用
   } else {
-    startVideoId = "To1yijqZCCE"; // 休憩用動画
+    startVideoId = "To1yijqZCCE"; // 休憩用
   }
 
-  // ✅ 最初に正しい動画IDをセットしてプレイヤー作成
   player = new YT.Player("youtube-frame", {
     videoId: startVideoId,
     playerVars: {
       autoplay: 1, // ✅ 自動再生ON
-      loop: 1,     // ✅ ループ再生ON
+      loop: 1,     // ✅ ループ再生
       playlist: startVideoId
     },
     events: {
       onReady: () => {
         const youtubeVolumeSlider = document.getElementById("youtube-volume");
 
-        // ✅ ここでもう一度時間判定（リロード直後だからほぼズレない）
-        const nowReady = new Date();
-        const isWorkTimeNow = nowReady.getMinutes() % 60 < 50;
-        const isLunchBreakNow = nowReady.getHours() === 12;
-
-        const savedVolume = localStorage.getItem(
-          isLunchBreakNow
-            ? "youtubeVolume_break"
-            : isWorkTimeNow
-            ? "youtubeVolume_work"
-            : "youtubeVolume_break"
-        ) || (isWorkTimeNow ? 1 : 1);
-
-        // ✅ 最初は音量ゼロ → すぐ再生
+        // ✅ ページ読み込み時は「音量0」で無音スタート
         player.setVolume(0);
         player.playVideo();
 
-        // ✅ 1秒後に本来の音量へ復元
-        setTimeout(() => {
+        // ✅ 初回クリックで音量を復元する設定
+        function enableAudioAfterInteraction() {
+          document.removeEventListener('click', enableAudioAfterInteraction); // 1回限り
+
+          const nowClick = new Date();
+          const isWorkTimeNow = nowClick.getMinutes() % 60 < 50;
+          const isLunchBreakNow = nowClick.getHours() === 12;
+
+          const savedVolume = localStorage.getItem(
+            isLunchBreakNow
+              ? "youtubeVolume_break"
+              : isWorkTimeNow
+              ? "youtubeVolume_work"
+              : "youtubeVolume_break"
+          ) || (isWorkTimeNow ? 1 : 1);
+
           player.setVolume(parseInt(savedVolume, 10));
+
           if (youtubeVolumeSlider) {
             youtubeVolumeSlider.value = savedVolume;
           }
-        }, 1000);
+        }
+
+        document.addEventListener('click', enableAudioAfterInteraction);
 
         // ✅ 音量スライダー操作にも対応
         if (youtubeVolumeSlider) {
+          const nowSlider = new Date();
+          const isWorkTimeSlider = nowSlider.getMinutes() % 60 < 50;
+
+          const savedVolume = localStorage.getItem(
+            isWorkTimeSlider ? "youtubeVolume_work" : "youtubeVolume_break"
+          ) || (isWorkTimeSlider ? 1 : 1);
+
+          youtubeVolumeSlider.value = savedVolume;
+
           youtubeVolumeSlider.addEventListener("input", () => {
             const vol = parseInt(youtubeVolumeSlider.value, 10);
             player.setVolume(vol);
@@ -570,12 +581,13 @@ window.onYouTubeIframeAPIReady = function() {
           });
         }
 
-        // ✅ ここで初めて updateTimer のループを開始！
+        // ✅ タイマーの更新ループ開始
         setInterval(updateTimer, 1000);
       }
     }
   });
-}
+};
+
 
 
 // =======================================================
