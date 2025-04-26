@@ -3,11 +3,11 @@ let player;
 
 window.onYouTubeIframeAPIReady = function() {
   player = new YT.Player("youtube-frame", {
-    videoId: "vr9dLvJs7VE",
+    videoId: "KcQnfPcmYLA",
     playerVars: {
       autoplay: 0,
       loop: 1,
-      playlist: "vr9dLvJs7VE"
+      playlist: "KcQnfPcmYLA"
     },
     events: {
       onReady: () => {
@@ -93,7 +93,7 @@ alarmEndSelect.addEventListener("change", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const workVideoId = "vr9dLvJs7VE";
+  const workVideoId = "KcQnfPcmYLA";
   const breakVideoId = "To1yijqZCCE";
   const lunchVideoId = "hZkOVN8qT8I";
 
