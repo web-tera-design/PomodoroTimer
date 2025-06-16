@@ -12,10 +12,49 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+
+.time {
   position: relative;
 }
 
+.time-bg {
+}
+
+
+.frame {
+  
+}
+
+.youtube-frame {
+  width: 100%;
+  aspect-ratio: 16 /9;
+  overflow: hidden;
+  position: relative;
+  bottom: 226px;
+  @include mq(md) {
+    bottom: 400px;
+    
+  }
+
+  @include mq(lg) {
+    bottom: 27svh;
+  }
+  @include mq(tab) {
+    bottom: 20svh;
+  }
+  @include mq(xl) {
+    bottom:0;
+  }
+  iframe {
+    
+  }
+}
+
 .time-break__wrapper {
+  max-width: 1140px;
+  padding-inline: 20px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -26,9 +65,9 @@ body {
   gap: 1rem;
   z-index: 100;
   color: #fff;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  // background: rgba(0, 0, 0, 0.2);
+  // padding: 0.5rem 1rem;
+  // border-radius: 8px;
 
   &.visible {
     display: flex;
@@ -102,19 +141,37 @@ body {
 
 iframe {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   border: none;
   position: relative;
 }
 
+.timer-body {
+
+}
+
+.timer-body__inner {
+
+}
+
+
+
 .timer__wrapper {
-  display: flex;
+  max-width: 1140px;
+  padding-inline: 20px;
+  width: 100%;
+  display: grid;
   position: absolute;
-  top: 50%;
+  top: 59%;
   left: 50%;
   transform: translate(-50%, -50%);
-  gap: 5vw;
+  gap: 20px;
   place-items: center;
+  grid-template-columns: 1fr;
+  @include mq(tab) {
+    top: 50%;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .timer {
@@ -123,6 +180,9 @@ iframe {
   border-radius: 10px;
   text-align: center;
   transition: font-size 0.3s ease;
+  @include mq(lg) {
+    font-size: min(150px, 13.1vw);
+  }
 }
 
 .timer__clock {
@@ -163,51 +223,55 @@ iframe {
 
 
 //休憩中にのみ表示
-.timer--top-left {
-  position: fixed;
-  top: 1.5rem;
-  left: 1.5rem;
-  font-size: 1.8rem;
-  color: rgba(255, 255, 255, 0.8); // ちょっと透かして上品に
-  background: rgba(0, 0, 0, 0.4);
-  padding: 0.3em 0.8em;
-  border-radius: 6px;
-  z-index: 100;
-  font-weight: 500;
-  display: none;
-}
+// .timer--top-left {
+//   position: fixed;
+//   top: 1.5rem;
+//   left: 1.5rem;
+//   font-size: 1.8rem;
+//   color: rgba(255, 255, 255, 0.8); // ちょっと透かして上品に
+//   background: rgba(0, 0, 0, 0.4);
+//   padding: 0.3em 0.8em;
+//   border-radius: 6px;
+//   z-index: 100;
+//   font-weight: 500;
+//   display: none;
+// }
 
 .todo {
-  width: min(90vw, 600px);
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12); // 透明感強めに
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 0 30px rgba(255, 255, 255, 0.1), // 内側の光
+    0 8px 32px rgba(0, 0, 0, 0.25); // 外側の影で浮かせる
   backdrop-filter: blur(10px);
-  padding: 1rem 1.5rem; // 少しタイトに
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1rem 1.5rem;
   color: #000;
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
   overflow-wrap: break-word;
   word-break: break-word;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+
 }
 
-.todo--floating {
-  position: fixed;
-  bottom: 20px;
-  right: 35vw;
-  width: 300px;
-  transform: scale(0.85);
-  transform-origin: bottom right;
-  background-color: rgba(255, 255, 255, 0);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0);
-  border-radius: 12px;
-  padding: 15px;
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
+
+// .todo--floating {
+//   position: fixed;
+//   bottom: 20px;
+//   right: 35vw;
+//   width: 300px;
+//   transform: scale(0.85);
+//   transform-origin: bottom right;
+//   background-color: rgba(255, 255, 255, 0);
+//   box-shadow: 0 8px 16px rgba(0, 0, 0, 0);
+//   border-radius: 12px;
+//   padding: 15px;
+//   z-index: 1000;
+//   transition: all 0.3s ease;
+// }
 
 
 
@@ -216,12 +280,15 @@ iframe {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-block: 0.5rem 1rem; // 上を詰めて下に余白
+  margin-block-start: 0.5rem; // 上を詰めて下に余白
 
   label {
     margin-bottom: 0.25rem;
-    font-size: 1rem;
+    font-size: 3.2vw;
     font-weight: 600;
+    @include mq(lg) {
+      font-size: min(16px, 1.4vw);
+    }
   }
 
   select {
@@ -230,8 +297,12 @@ iframe {
     border: 1px solid #000;
     background: transparent;
     color: #000;
-    font-size: 1rem;
+    font-size: 3.2vw;
     transition: all 0.3s ease;
+
+    @include mq(lg) {
+      font-size: min(16px, 1.4vw);
+    }
 
     &:hover {
       border: 1px solid #000;
@@ -259,6 +330,10 @@ iframe {
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
+    font-size: 3.2vw;
+    @include mq(lg) {
+      font-size: min(16px, 1.4vw);
+    }
 
     &:hover {
       background: linear-gradient(to right, #ddd, #fff);
@@ -274,15 +349,17 @@ iframe {
 
 .alarm-ui {
   margin-block-start: 10px;
-  margin-bottom: 1rem;
   padding: 1rem;
   border: 1px solid #000;
   background: transparent;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 3.2vw;
   display: flex;
   flex-direction: column;
   color: #000;
+  @include mq(lg) {
+    font-size: min(16px, 1.4vw);
+  }
 }
 
 .alarm-ui.is-hovered { 
@@ -309,8 +386,10 @@ iframe {
 }
 
 .alarm-volume-group label {
-  font-size: 0.95rem;
-}
+  font-size: 3.2vw;
+  @include mq(lg) {
+    font-size: min(16px, 1.4vw);
+  }}
 
 // .alarm-volume-group input[type="range"] {
 //   width: 100%;
@@ -369,17 +448,21 @@ iframe {
 
 .todo-form {
   display: flex;
-  margin-block: 1rem 0.5rem;
+  margin-block-start: 0.5rem;
   gap: 0.5rem;
 }
 
 .todo-input {
   flex: 1;
   padding: 0.4rem 0.8rem;
-  font-size: 1rem;
+  font-size: 3.2vw;
   border-radius: 6px;
   border: 1px solid #000;
   transition: all 0.3s ease;
+
+  @include mq(lg) {
+    font-size: min(16px, 1.4vw);
+  }
 
   &::placeholder {
     color: #000;

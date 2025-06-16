@@ -1,3 +1,11 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const viewport = document.querySelector('meta[name="viewport"]');
+
+  if (window.innerWidth <= 375 && viewport) {
+    viewport.setAttribute("content", "width=375");
+  }
+});
+
 // ✅ YouTube IFrame APIでプレイヤーを制御（無音再生 → 3秒後に音量復元）
 let player;
 
@@ -75,9 +83,6 @@ function playAlarm(type) {
   audio.play();
 }
 
-// ✅ DOMContentLoaded イベント内での初期化処理
-// 必要な変数などはここで定義済みと仮定
-
 // 🔽 アラームセレクト要素の取得
 const alarmStartSelect = document.getElementById("alarm-start-select");
 const alarmEndSelect = document.getElementById("alarm-end-select");
@@ -108,25 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const breakWrapper = document.querySelector(".time-break__wrapper");
   const breakText = document.querySelector(".time-break");
   const restartTimeText = document.getElementById("restart-time");
-
-  // ✅ 音量スライダー群をJSで挿入
-  // const alarmUIWrapper = document.createElement("div");
-  // alarmUIWrapper.className = "alarm-ui";
-  // alarmUIWrapper.innerHTML = `
-  //   <div class="alarm-volume-group">
-  //     <label for="alarm-volume">アラーム音量</label>
-  //     <input type="range" id="alarm-volume" min="0" max="1" step="0.01" value="0.5">
-  //   </div>
-  //   <div class="alarm-volume-group">
-  //     <label for="youtube-volume">YouTube 音量</label>
-  //     <input type="range" id="youtube-volume" min="0" max="100" step="1" value="50">
-  //   </div>
-  // `;
-
-  // const todoForm = document.getElementById("todo-form");
-  // if (todoElement && todoForm) {
-  //   todoElement.insertBefore(alarmUIWrapper, todoForm);
-  // }
   const todoForm = document.getElementById("todo-form");
 
   // ✅ 音量スライダーの連動処理（アラーム）
@@ -309,11 +295,11 @@ document.addEventListener("DOMContentLoaded", () => {
       fullscreenCountdown.classList.add("hidden");
     } else {
       // 休憩中
-      timerElement.classList.add("timer--top-left");
-      if (todoElement) {
-        todoElement.style.display = "";
-        todoElement.classList.add("todo--floating"); // ★追加！
-      }
+      // timerElement.classList.add("timer--top-left");
+      // if (todoElement) {
+      //   todoElement.style.display = "";
+      //   todoElement.classList.add("todo--floating"); // ★追加！
+      // }
       if (breakWrapper) breakWrapper.classList.add("visible");
 
       let restartHour = hours;

@@ -39,6 +39,7 @@ $breakpoints: (
     sm: "screen and (min-width: 600px)",
     md: "screen and (min-width: 768px)",
     lg: "screen and (min-width: 900px)",
+    tab: "screen and (min-width: 1024px)",
     xl: "screen and (min-width: 1200px)"
 );
 
@@ -50,49 +51,43 @@ $breakpoints: (
 // }
 
 
-
-
 @mixin mq($breakpoint: sm) {
-  @media #{map.get($breakpoints, $breakpoint)} {
+  $query: map-get($breakpoints, $breakpoint); // ✅ ここで一度取り出す
+  @media #{$query} {
     @content;
   }
 }
 
-@function rem($px) {
-  @return ($px / 16) * 1rem; // `px` を `rem` に変換
-}
 
-@function rclamp($min, $max, $minViewport, $maxViewport) {
-  $vwScale: ($max - $min) / ($maxViewport - $minViewport);
-  $baseOffset: $min - $minViewport * $vwScale;
+// @mixin mq($breakpoint: sm) {
+//   @media #{map.get($breakpoints, $breakpoint)} {
+//     @content;
+//   }
+// }
 
-  // clamp() が壊れないよう min/max 順を正す
-  $minValue: min($min, $max);
-  $maxValue: max($min, $max);
+// @function rem($px) {
+//   @return ($px / 16) * 1rem; // `px` を `rem` に変換
+// }
 
-  $minRem: $minValue / 16;
-  $maxRem: $maxValue / 16;
-  $baseOffsetRem: $baseOffset / 16;
-  $vwScaleRem: $vwScale * 100;
+// @function rclamp($min, $max, $minViewport, $maxViewport) {
+//   $vwScale: ($max - $min) / ($maxViewport - $minViewport);
+//   $baseOffset: $min - $minViewport * $vwScale;
 
-  @return clamp(#{$minRem}rem, #{$baseOffsetRem}rem + #{$vwScaleRem}vw, #{$maxRem}rem);
-}
+//   // clamp() が壊れないよう min/max 順を正す
+//   $minValue: min($min, $max);
+//   $maxValue: max($min, $max);
 
-@function rclamp3($min-size, $mid-size, $min-px, $mid-px) {
-  // ✅ rem 変換
-  $min-size-rem: math.div($min-size, 16) * 1rem;
-  $mid-size-rem: math.div($mid-size, 16) * 1rem;
+//   $minRem: $minValue / 16;
+//   $maxRem: $maxValue / 16;
+//   $baseOffsetRem: $baseOffset / 16;
+//   $vwScaleRem: $vwScale * 100;
 
-  // ✅ 1920px での比率維持
-  $ratio: math.div($mid-size, $mid-px);
-  $max-size-rem: math.div(1920 * $ratio, 16) * 1rem;
+//   @return clamp(#{$minRem}rem, #{$baseOffsetRem}rem + #{$vwScaleRem}vw, #{$maxRem}rem);
+// }
 
-  // ✅ 傾き（slope1）計算
-  $slope1: math.div(($mid-size - $min-size), ($mid-px - $min-px));
-
-  // ✅ fluid1 の計算（100vw でもOK）
-  $fluid1: calc((100vw - #{$min-px}px) * #{$slope1} + #{$min-size-rem});
-
-  // ✅ clamp() でサイズ制御
-  @return clamp(#{$min-size-rem}, #{$fluid1}, #{$max-size-rem});
+.hidden-sp {
+  display: none !important;
+  @include mq(lg) {
+    display: block;
+  }
 }
