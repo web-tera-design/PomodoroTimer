@@ -1,14 +1,14 @@
 // ✅ YouTube IFrame APIでプレイヤーを制御（無音再生 → 3秒後に音量復元）
 let player;
 
-window.onYouTubeIframeAPIReady = function() {
+window.onYouTubeIframeAPIReady = function () {
   player = new YT.Player("youtube-frame", {
-    videoId: "KcQnfPcmYLA",
+    videoId: "-Zk7Y-8mf6Q",
     playerVars: {
       autoplay: 1,
-      mute: 1,  // 最初は必ず無音
+      mute: 1, // 最初は必ず無音
       loop: 1,
-      playlist: "KcQnfPcmYLA"
+      playlist: "-Zk7Y-8mf6Q",
     },
     events: {
       onReady: () => {
@@ -19,9 +19,7 @@ window.onYouTubeIframeAPIReady = function() {
         if (youtubeVolumeSlider) {
           // ✅ 最初スライダーに savedVolume をセット
           const isWorkTime = new Date().getMinutes() % 60 < 50;
-          const savedVolume = localStorage.getItem(
-            isWorkTime ? "youtubeVolume_work" : "youtubeVolume_break"
-          ) || 50;
+          const savedVolume = localStorage.getItem(isWorkTime ? "youtubeVolume_work" : "youtubeVolume_break") || 50;
           youtubeVolumeSlider.value = savedVolume;
 
           // ✅ スライダーを触った瞬間だけ unmute＋volume設定
@@ -35,22 +33,15 @@ window.onYouTubeIframeAPIReady = function() {
               isUnmuted = true;
             }
 
-            localStorage.setItem(
-              new Date().getMinutes() % 60 < 50 ? "youtubeVolume_work" : "youtubeVolume_break",
-              vol
-            );
+            localStorage.setItem(new Date().getMinutes() % 60 < 50 ? "youtubeVolume_work" : "youtubeVolume_break", vol);
           });
         }
 
         setInterval(updateTimer, 1000);
-      }
-    }
+      },
+    },
   });
-}
-
-
-
-
+};
 
 // ① 関数定義（DOMContentLoadedより前）
 function setTimerMinWidth() {
@@ -106,9 +97,9 @@ alarmEndSelect.addEventListener("change", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const workVideoId = "KcQnfPcmYLA";
-  const breakVideoId = "To1yijqZCCE";
-  const lunchVideoId = "hZkOVN8qT8I";
+  const workVideoId = "-Zk7Y-8mf6Q";
+  const breakVideoId = "-Zk7Y-8mf6Q";
+  const lunchVideoId = "-Zk7Y-8mf6Q";
 
   const timerElement = document.querySelector(".timer");
   // ✅ タイマーの最小幅を設定（ズレ防止）
@@ -119,23 +110,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const restartTimeText = document.getElementById("restart-time");
 
   // ✅ 音量スライダー群をJSで挿入
-  const alarmUIWrapper = document.createElement("div");
-  alarmUIWrapper.className = "alarm-ui";
-  alarmUIWrapper.innerHTML = `
-    <div class="alarm-volume-group">
-      <label for="alarm-volume">アラーム音量</label>
-      <input type="range" id="alarm-volume" min="0" max="1" step="0.01" value="0.5">
-    </div>
-    <div class="alarm-volume-group">
-      <label for="youtube-volume">YouTube 音量</label>
-      <input type="range" id="youtube-volume" min="0" max="100" step="1" value="50">
-    </div>
-  `;
+  // const alarmUIWrapper = document.createElement("div");
+  // alarmUIWrapper.className = "alarm-ui";
+  // alarmUIWrapper.innerHTML = `
+  //   <div class="alarm-volume-group">
+  //     <label for="alarm-volume">アラーム音量</label>
+  //     <input type="range" id="alarm-volume" min="0" max="1" step="0.01" value="0.5">
+  //   </div>
+  //   <div class="alarm-volume-group">
+  //     <label for="youtube-volume">YouTube 音量</label>
+  //     <input type="range" id="youtube-volume" min="0" max="100" step="1" value="50">
+  //   </div>
+  // `;
 
+  // const todoForm = document.getElementById("todo-form");
+  // if (todoElement && todoForm) {
+  //   todoElement.insertBefore(alarmUIWrapper, todoForm);
+  // }
   const todoForm = document.getElementById("todo-form");
-  if (todoElement && todoForm) {
-    todoElement.insertBefore(alarmUIWrapper, todoForm);
-  }
 
   // ✅ 音量スライダーの連動処理（アラーム）
   const alarmVolumeSlider = document.getElementById("alarm-volume");
@@ -154,9 +146,11 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("alarmVolume", vol);
   });
 
+  const alarmUIWrapper = document.querySelector(".alarm-ui");
+
   const alarmSlider = alarmUIWrapper.querySelector("#alarm-volume");
   const alarmUI = alarmUIWrapper;
-  
+
   if (alarmSlider && alarmUI) {
     alarmSlider.addEventListener("mouseenter", () => {
       alarmUI.classList.add("is-hovered");
@@ -165,20 +159,17 @@ document.addEventListener("DOMContentLoaded", () => {
       alarmUI.classList.remove("is-hovered");
     });
   }
-  
+
   const youtubeSlider = alarmUIWrapper.querySelector("#youtube-volume");
 
-if (youtubeSlider && alarmUIWrapper) {
-  youtubeSlider.addEventListener("mouseenter", () => {
-    alarmUIWrapper.classList.add("is-hovered");
-  });
-  youtubeSlider.addEventListener("mouseleave", () => {
-    alarmUIWrapper.classList.remove("is-hovered");
-  });
-}
-
-
-
+  if (youtubeSlider && alarmUIWrapper) {
+    youtubeSlider.addEventListener("mouseenter", () => {
+      alarmUIWrapper.classList.add("is-hovered");
+    });
+    youtubeSlider.addEventListener("mouseleave", () => {
+      alarmUIWrapper.classList.remove("is-hovered");
+    });
+  }
 
   const alarmStartSelect = document.getElementById("alarm-start-select");
   const alarmEndSelect = document.getElementById("alarm-end-select");
@@ -262,14 +253,11 @@ if (youtubeSlider && alarmUIWrapper) {
     const breakCountdownText = document.getElementById("break-countdown");
     const breakWrapper = document.querySelector(".time-break__wrapper");
     const fullscreenCountdown = document.getElementById("break-fullscreen-countdown");
-    
-
 
     const remaining = isWorkTime ? (49 - minutes) * 60 + (59 - seconds) : (59 - minutes) * 60 + (59 - seconds);
     // 既存：remaining の計算後
     // ✅ これだけでOK（常に表示）
     timerElement.style.visibility = "visible";
-
 
     const displayMinutes = String(Math.floor(remaining / 60)).padStart(2, "0");
     const displaySeconds = String(remaining % 60).padStart(2, "0");
@@ -283,8 +271,6 @@ if (youtubeSlider && alarmUIWrapper) {
       timerElement.textContent = `${displayMinutes}:${displaySeconds}`;
       timerElement.classList.remove("timer__clock--countdown");
     }
-    
-    
 
     let targetVideoId = isWorkTime ? workVideoId : breakVideoId;
     if (isLunchBreak) targetVideoId = lunchVideoId;
@@ -292,14 +278,15 @@ if (youtubeSlider && alarmUIWrapper) {
     const currentVideoId = player?.getVideoData?.().video_id;
     if (player && currentVideoId !== targetVideoId) {
       player.setVolume(0);
-      player.cueVideoById({ videoId: targetVideoId, suggestedQuality: "large" });
+      player.cueVideoById({
+        videoId: targetVideoId,
+        suggestedQuality: "large",
+      });
       setTimeout(() => {
         const nowAgain = new Date();
         const isStillLunch = nowAgain.getHours() === 12;
         const isStillWorkTime = !isStillLunch && nowAgain.getMinutes() < 50;
-        const savedVolume = localStorage.getItem(
-          isStillLunch ? "youtubeVolume_break" : isStillWorkTime ? "youtubeVolume_work" : "youtubeVolume_break"
-        ) || (isStillWorkTime ? 1 : 1);
+        const savedVolume = localStorage.getItem(isStillLunch ? "youtubeVolume_break" : isStillWorkTime ? "youtubeVolume_work" : "youtubeVolume_break") || (isStillWorkTime ? 1 : 1);
         player.setVolume(parseInt(savedVolume, 10));
         player.playVideo();
 
@@ -317,7 +304,7 @@ if (youtubeSlider && alarmUIWrapper) {
         todoElement.classList.remove("todo--floating"); // ★追加！
       }
       if (breakWrapper) breakWrapper.classList.remove("visible");
-    
+
       breakCountdownText.textContent = "";
       fullscreenCountdown.classList.add("hidden");
     } else {
@@ -326,15 +313,15 @@ if (youtubeSlider && alarmUIWrapper) {
       if (todoElement) {
         todoElement.style.display = "";
         todoElement.classList.add("todo--floating"); // ★追加！
-      }     
+      }
       if (breakWrapper) breakWrapper.classList.add("visible");
-    
+
       let restartHour = hours;
       if (isLunchBreak) restartHour = 13;
       else if (minutes >= 50) restartHour = hours + 1;
-    
+
       restartTimeText.textContent = `${String(restartHour).padStart(2, "0")}:00に再開します`;
-    
+
       if (remaining > 10 && remaining <= 59) {
         // 👇 通常のカウントダウン（下に表示）
         fullscreenCountdown.classList.add("hidden");
@@ -347,7 +334,7 @@ if (youtubeSlider && alarmUIWrapper) {
         breakCountdownText.style.display = "none";
         restartTimeText.style.display = "none";
         breakText.style.display = "none";
-    
+
         fullscreenCountdown.textContent = remaining;
         fullscreenCountdown.classList.remove("hidden");
         fullscreenCountdown.classList.remove("break-fullscreen-countdown");
@@ -355,14 +342,12 @@ if (youtubeSlider && alarmUIWrapper) {
         fullscreenCountdown.classList.add("break-fullscreen-countdown");
         fullscreenCountdown.style.color = "#ffffff";
 
-
         // ★ここから追記！
         const width = fullscreenCountdown.offsetWidth;
         fullscreenCountdown.style.left = "50%";
         fullscreenCountdown.style.transform = `translate(-${width / 2}px, -50%)`;
 
-
-            // 👇 ここに追記！
+        // 👇 ここに追記！
         gsap.fromTo(
           fullscreenCountdown,
           { y: -5, scale: 3, transformOrigin: "center" },
@@ -379,7 +364,7 @@ if (youtubeSlider && alarmUIWrapper) {
         breakCountdownText.style.display = "none";
         restartTimeText.style.display = "none";
         breakText.style.display = "none";
-      
+
         fullscreenCountdown.textContent = "0";
         fullscreenCountdown.classList.remove("hidden");
         fullscreenCountdown.classList.remove("break-fullscreen-countdown");
@@ -403,13 +388,12 @@ if (youtubeSlider && alarmUIWrapper) {
           opacity: 0,
           filter: "blur(8px)",
           duration: 3,
-          ease: "expo.out"
+          ease: "expo.out",
         });
 
-          // ✅ 💥★これが最後に必要！
+        // ✅ 💥★これが最後に必要！
         setTimeout(() => {
           gsap.killTweensOf(fullscreenCountdown); // ← これで全GSAPの影響を止める！
-
 
           fullscreenCountdown.textContent = "";
           fullscreenCountdown.classList.add("hidden");
@@ -420,84 +404,84 @@ if (youtubeSlider && alarmUIWrapper) {
         }, 3000);
       }
     }
-    
 
     // 追加部分（既存の updateTimer 内）
-      const remainingRatio = remaining / 60;
+    const remainingRatio = remaining / 60;
 
-      timerElement.classList.remove("timer__clock--normal", "timer__clock--warn", "timer__clock--danger");
+    timerElement.classList.remove("timer__clock--normal", "timer__clock--warn", "timer__clock--danger");
 
-      if (remaining <= 59) {
-        timerElement.classList.add("timer__clock--danger");
-      } else if (remaining <= 5 * 60) {
-        timerElement.classList.add("timer__clock--warn");
-      } else {
-        timerElement.classList.add("timer__clock--normal");
-      }
+    if (remaining <= 59) {
+      timerElement.classList.add("timer__clock--danger");
+    } else if (remaining <= 5 * 60) {
+      timerElement.classList.add("timer__clock--warn");
+    } else {
+      timerElement.classList.add("timer__clock--normal");
+    }
 
-      if (remaining <= 59 && remaining > 10) {
-        timerElement.classList.add("timer__clock--near-end");
-      } else {
-        timerElement.classList.remove("timer__clock--near-end");
-      }
-      
+    if (remaining <= 59 && remaining > 10) {
+      timerElement.classList.add("timer__clock--near-end");
+    } else {
+      timerElement.classList.remove("timer__clock--near-end");
+    }
 
-      // カウント強調（10秒以内）
-      if (remaining <= 9) {
+    // カウント強調（10秒以内）
+    if (remaining <= 9) {
+      timerElement.classList.add("timer__clock--countdown");
+    } else {
+      timerElement.classList.remove("timer__clock--countdown");
+    }
+
+    if (remaining <= 9) {
+      timerElement.classList.remove("timer__clock--countdown"); // 一度外す
+
+      // 再発火のためにタイミングずらして add
+      setTimeout(() => {
         timerElement.classList.add("timer__clock--countdown");
-      } else {
-        timerElement.classList.remove("timer__clock--countdown");
-      }
+      }, 9);
+    } else {
+      timerElement.classList.remove("timer__clock--countdown");
+    }
 
-      if (remaining <= 9) {
-        timerElement.classList.remove("timer__clock--countdown"); // 一度外す
-      
-        // 再発火のためにタイミングずらして add
+    const breakCountdown = document.getElementById("break-countdown");
+
+    if (!isWorkTime) {
+      if (remaining <= 59 && remaining > 0) {
+        // 1分未満 → 下に表示
+        breakCountdown.classList.remove("explode");
+        breakCountdown.textContent = `${remaining} 秒後に作業再開`;
+      } else if (remaining === 0) {
+        // 残り0秒 → 中央にズーム演出
+        breakCountdown.textContent = "0";
+        breakCountdown.classList.add("explode");
+
         setTimeout(() => {
-          timerElement.classList.add("timer__clock--countdown");
-        }, 9);
-      } else {
-        timerElement.classList.remove("timer__clock--countdown");
-      }
-
-      const breakCountdown = document.getElementById("break-countdown");
-
-      if (!isWorkTime) {
-        if (remaining <= 59 && remaining > 0) {
-          // 1分未満 → 下に表示
-          breakCountdown.classList.remove("explode");
-          breakCountdown.textContent = `${remaining} 秒後に作業再開`;
-        } else if (remaining === 0) {
-          // 残り0秒 → 中央にズーム演出
-          breakCountdown.textContent = "0";
-          breakCountdown.classList.add("explode");
-
-          setTimeout(() => {
-            breakCountdown.textContent = "";
-            breakCountdown.classList.remove("explode");
-          }, 800);
-        } else {
-          // 通常時
           breakCountdown.textContent = "";
           breakCountdown.classList.remove("explode");
-        }
+        }, 800);
       } else {
-        // 作業中は非表示
+        // 通常時
         breakCountdown.textContent = "";
         breakCountdown.classList.remove("explode");
       }
+    } else {
+      // 作業中は非表示
+      breakCountdown.textContent = "";
+      breakCountdown.classList.remove("explode");
+    }
   }
 
   if (testStartBtn) testStartBtn.addEventListener("click", () => playAlarm("start"));
   if (testEndBtn) testEndBtn.addEventListener("click", () => playAlarm("end"));
-  if (stopStartBtn) stopStartBtn.addEventListener("click", () => {
-    audioStart.pause();
-    audioStart.currentTime = 0;
-  });
-  if (stopEndBtn) stopEndBtn.addEventListener("click", () => {
-    audioEnd.pause();
-    audioEnd.currentTime = 0;
-  });
+  if (stopStartBtn)
+    stopStartBtn.addEventListener("click", () => {
+      audioStart.pause();
+      audioStart.currentTime = 0;
+    });
+  if (stopEndBtn)
+    stopEndBtn.addEventListener("click", () => {
+      audioEnd.pause();
+      audioEnd.currentTime = 0;
+    });
 
   setInterval(() => {
     if (typeof player !== "undefined" && typeof player.getVideoData === "function") {
@@ -513,13 +497,18 @@ window.toggleBreak = (hour = 13, minute = 55) => {
   fakeNow.setMinutes(minute);
 
   class FakeDate extends Date {
-    constructor(...args) { super(...args); }
-    getMinutes() { return fakeNow.getMinutes(); }
-    getHours() { return fakeNow.getHours(); }
+    constructor(...args) {
+      super(...args);
+    }
+    getMinutes() {
+      return fakeNow.getMinutes();
+    }
+    getHours() {
+      return fakeNow.getHours();
+    }
   }
   window.Date = FakeDate;
   console.log(`✅ ${hour}:${minute} に時刻を偽装しました（リロードで解除）`);
-//   toggleBreak(12, 10);  
-// // → 時刻を「12時10分」に偽装する
-
+  //   toggleBreak(12, 10);
+  // // → 時刻を「12時10分」に偽装する
 };

@@ -367,13 +367,13 @@ iframe {
 }
 
 
-#todo-form {
+.todo-form {
   display: flex;
   margin-block: 1rem 0.5rem;
   gap: 0.5rem;
 }
 
-#todo-input {
+.todo-input {
   flex: 1;
   padding: 0.4rem 0.8rem;
   font-size: 1rem;
@@ -384,6 +384,7 @@ iframe {
   &::placeholder {
     color: #000;
   }
+
   &:hover {
     background: #fff;
     color: #000;
@@ -392,7 +393,7 @@ iframe {
   }
 }
 
-#todo-form button {
+.todo-form button {
   padding: 0.4rem 0.8rem;
   background: #000;
   color: #fff;
@@ -407,7 +408,7 @@ iframe {
   }
 }
 
-#todo-list li {
+.todo-list li {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -425,8 +426,8 @@ iframe {
       transform: translate(0);
     }
   }
-  
 }
+
 
 .delete-btn {
   background: #e74c3c;
