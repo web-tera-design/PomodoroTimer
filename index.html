@@ -18,14 +18,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/style.css?v=20250625" />
     <!-- swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <!-- ✅ YouTube APIは動的読み込みで！ -->
+    <script>
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    </script>
 
     <!-- 自作スクリプト（deferでHTML解析後に実行） -->
-    <script src="./js/script.js" defer></script>
+    <script src="./js/script.js?v=20250625" defer></script>
   </head>
   <body>
     <section class="time">
@@ -119,7 +125,7 @@
               </div>
               <div class="alarm-ui">
                 <div class="alarm-volume-group">
-                  <label for="alarm-volume">アラーム音量</label>
+                  <label for="alarm-volume">アラーム音量音量</label>
                   <input type="range" id="alarm-volume" class="alarm-volume" min="0" max="1" step="0.01" value="0.5" />
                 </div>
                 <div class="alarm-volume-group">

@@ -180,6 +180,7 @@ iframe {
   border-radius: 10px;
   text-align: center;
   transition: font-size 0.3s ease;
+  min-width: auto;
   @include mq(lg) {
     font-size: min(150px, 13.1vw);
   }

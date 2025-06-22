@@ -246,6 +246,7 @@ iframe {
   border-radius: 10px;
   text-align: center;
   transition: font-size 0.3s ease;
+  min-width: auto;
 }
 @media screen and (min-width: 900px) {
   .timer {
