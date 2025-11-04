@@ -2,10 +2,13 @@
 let player;
 
 // ★★★ ここで動画IDを一元管理します ★★★
-const workVideoId = "Zwo-15CkW24";
+const workVideoId = "8KrLtLr-Gy8";
 const breakVideoId = "To1yijqZCCE";
-const lunchVideoId = "cM-kaD7RLIs";
+const lunchVideoId = "j0CKBT8kV-E";
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+const audioStart = new Audio();
+const audioEnd = new Audio();
 
 function updateTimer(nowOverride = null) {
   const timerElement = document.querySelector(".timer");
@@ -350,8 +353,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedAlarmVol = localStorage.getItem("alarmVolume") || "0.5";
   alarmVolumeSlider.value = savedAlarmVol;
 
-  const audioStart = new Audio();
-  const audioEnd = new Audio();
+  // const audioStart = new Audio();
+  // const audioEnd = new Audio();
   audioStart.volume = parseFloat(savedAlarmVol);
   audioEnd.volume = parseFloat(savedAlarmVol);
 
@@ -458,4 +461,6 @@ window.toggleBreak = (hour = 13, minute = 55) => {
   }
   window.Date = FakeDate;
   console.log(`✅ ${hour}:${minute} に時刻を偽装しました（リロードで解除）`);
+  //
+  // toggleBreak(12, 10);
 };
