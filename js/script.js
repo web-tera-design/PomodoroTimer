@@ -335,26 +335,15 @@ alarmEndSelect.addEventListener("change", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 以下の行を削除しました。グローバルスコープの変数が使用されます。
-  // const workVideoId = "Zwo-15CkW24";
-  // const breakVideoId = "To1yijqZCCE";
-  // const lunchVideoId = "cM-kaD7RLIs";
-
   const timerElement = document.querySelector(".timer");
   setTimerMinWidth();
   const todoElement = document.querySelector(".todo");
   const breakWrapper = document.querySelector(".time-break__wrapper");
-  // breakText と restartTimeText は onYouTubeIframeAPIReady 内でグローバル変数に代入するようにしたので、ここでのローカル変数定義は不要
-  // const breakText = document.querySelector(".time-break");
-  // const restartTimeText = document.getElementById("restart-time");
   const todoForm = document.getElementById("todo-form");
 
   const alarmVolumeSlider = document.getElementById("alarm-volume");
   const savedAlarmVol = localStorage.getItem("alarmVolume") || "0.5";
   alarmVolumeSlider.value = savedAlarmVol;
-
-  // const audioStart = new Audio();
-  // const audioEnd = new Audio();
   audioStart.volume = parseFloat(savedAlarmVol);
   audioEnd.volume = parseFloat(savedAlarmVol);
 
