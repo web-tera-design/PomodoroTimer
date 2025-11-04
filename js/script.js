@@ -89,73 +89,77 @@ function updateTimer(nowOverride = null) {
       breakCountdownText.style.display = "";
       restartTimeText.style.display = "";
       breakText.style.display = "";
-    } else if (remaining <= 10 && remaining > 0) {
-      breakCountdownText.style.display = "none";
-      restartTimeText.style.display = "none";
-      breakText.style.display = "none";
+      // } else if (remaining <= 10 && remaining > 0) {
+      //   fullscreenCountdown.classList.add("hidden");
+      //   fullscreenCountdown.textContent = "";
+      //   fullscreenCountdown.style = null; // 必要なら
 
-      fullscreenCountdown.textContent = remaining;
-      fullscreenCountdown.classList.remove("hidden");
-      fullscreenCountdown.classList.remove("break-fullscreen-countdown");
-      void fullscreenCountdown.offsetWidth;
-      fullscreenCountdown.classList.add("break-fullscreen-countdown");
-      fullscreenCountdown.style.color = "#ffffff";
+      //   breakCountdownText.style.display = "none";
+      //   restartTimeText.style.display = "none";
+      //   breakText.style.display = "none";
 
-      const width = fullscreenCountdown.offsetWidth;
-      fullscreenCountdown.style.left = "50%";
-      fullscreenCountdown.style.transform = `translate(-${width / 2}px, -50%)`;
+      //   fullscreenCountdown.textContent = remaining;
+      //   fullscreenCountdown.classList.remove("hidden");
+      //   fullscreenCountdown.classList.remove("break-fullscreen-countdown");
+      //   void fullscreenCountdown.offsetWidth;
+      //   fullscreenCountdown.classList.add("break-fullscreen-countdown");
+      //   fullscreenCountdown.style.color = "#ffffff";
 
-      gsap.fromTo(
-        fullscreenCountdown,
-        { y: -5, scale: 3, transformOrigin: "center" },
-        {
-          y: 5,
-          scale: 1,
-          duration: 0.1,
-          yoyo: true,
-          repeat: 3,
-          ease: "power1.inOut",
-        }
-      );
-    } else if (remaining === 0) {
-      breakCountdownText.style.display = "none";
-      restartTimeText.style.display = "none";
-      breakText.style.display = "none";
+      //   const width = fullscreenCountdown.offsetWidth;
+      //   fullscreenCountdown.style.left = "50%";
+      //   fullscreenCountdown.style.transform = `translate(-${width / 2}px, -50%)`;
 
-      fullscreenCountdown.textContent = "0";
-      fullscreenCountdown.classList.remove("hidden");
-      fullscreenCountdown.classList.remove("break-fullscreen-countdown");
-      void fullscreenCountdown.offsetWidth;
-      fullscreenCountdown.classList.add("break-fullscreen-countdown");
+      //   gsap.fromTo(
+      //     fullscreenCountdown,
+      //     { y: -5, scale: 3, transformOrigin: "center" },
+      //     {
+      //       y: 5,
+      //       scale: 1,
+      //       duration: 0.1,
+      //       yoyo: true,
+      //       repeat: 3,
+      //       ease: "power1.inOut",
+      //     }
+      //   );
+      // } else if (remaining === 0) {
+      //   breakCountdownText.style.display = "none";
+      //   restartTimeText.style.display = "none";
+      //   breakText.style.display = "none";
 
-      fullscreenCountdown.style.opacity = "1";
-      fullscreenCountdown.style.filter = "none";
-      fullscreenCountdown.style.color = "#ffffff";
-      fullscreenCountdown.style.transform = `translate(-50%, -50%) scale(1)`;
+      //   fullscreenCountdown.textContent = "0";
+      //   fullscreenCountdown.classList.remove("hidden");
+      //   fullscreenCountdown.classList.remove("break-fullscreen-countdown");
+      //   void fullscreenCountdown.offsetWidth;
+      //   fullscreenCountdown.classList.add("break-fullscreen-countdown");
 
-      const width = fullscreenCountdown.offsetWidth;
-      fullscreenCountdown.style.left = "50%";
-      fullscreenCountdown.style.transform = `translate(-${width / 2}px, -50%)`;
+      //   fullscreenCountdown.style.opacity = "1";
+      //   fullscreenCountdown.style.filter = "none";
+      //   fullscreenCountdown.style.color = "#ffffff";
+      //   fullscreenCountdown.style.transform = `translate(-50%, -50%) scale(1)`;
 
-      gsap.to(fullscreenCountdown, {
-        delay: 0.2,
-        scale: 9.2,
-        opacity: 0,
-        filter: "blur(8px)",
-        duration: 3,
-        ease: "expo.out",
-      });
+      //   const width = fullscreenCountdown.offsetWidth;
+      //   fullscreenCountdown.style.left = "50%";
+      //   fullscreenCountdown.style.transform = `translate(-${width / 2}px, -50%)`;
 
-      setTimeout(() => {
-        gsap.killTweensOf(fullscreenCountdown);
+      //   gsap.to(fullscreenCountdown, {
+      //     delay: 0.2,
+      //     scale: 9.2,
+      //     opacity: 0,
+      //     filter: "blur(8px)",
+      //     duration: 3,
+      //     ease: "expo.out",
+      //   });
 
-        fullscreenCountdown.textContent = "";
-        fullscreenCountdown.classList.add("hidden");
-        fullscreenCountdown.style.filter = "none";
-        fullscreenCountdown.style.opacity = "1";
-        fullscreenCountdown.style.transform = `translate(-50%, -50%) scale(1)`;
-        fullscreenCountdown.style.color = "#ffffff";
-      }, 3000);
+      // setTimeout(() => {
+      //   gsap.killTweensOf(fullscreenCountdown);
+
+      //   fullscreenCountdown.textContent = "";
+      //   fullscreenCountdown.classList.add("hidden");
+      //   fullscreenCountdown.style.filter = "none";
+      //   fullscreenCountdown.style.opacity = "1";
+      //   fullscreenCountdown.style.transform = `translate(-50%, -50%) scale(1)`;
+      //   fullscreenCountdown.style.color = "#ffffff";
+      // }, 3000);
     }
   }
 
