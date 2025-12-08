@@ -2,7 +2,7 @@
 let player;
 
 // ★★★ ここで動画IDを一元管理します ★★★
-const workVideoId = "8KrLtLr-Gy8";
+const workVideoId = "7wU1uHfsIqs";
 const breakVideoId = "To1yijqZCCE";
 const lunchVideoId = "j0CKBT8kV-E";
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
